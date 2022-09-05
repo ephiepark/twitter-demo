@@ -2,6 +2,8 @@ import { Button, AppBar, Toolbar, Typography, Box } from "@mui/material";
 import { WithFirebaseApiProps, withFirebaseApi } from "../Firebase";
 import { useAppSelector } from "../redux/hooks";
 import { RootState } from "../redux/store";
+import { Link } from 'react-router-dom';
+
 
 const HeaderBase = (
   props: WithFirebaseApiProps
@@ -18,7 +20,7 @@ const HeaderBase = (
     <AppBar position="static">
       <Toolbar sx={{ width: "100%", maxWidth: 720, margin: "auto" }}>
         <Typography variant="h6" component="div">
-          <Button color="inherit">LogInApp</Button>
+          <Button component={Link} to={'/'} color="inherit">Twitter</Button>
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
         {button}

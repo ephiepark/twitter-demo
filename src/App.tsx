@@ -39,12 +39,12 @@ const Body = () => {
   if (currentUserInfo === null) {
     return <Onboarding />;
   }
-  return (<BrowserRouter>
+  return (
     <Routes>
       <Route path="/" element={<MainFeed />} />
       <Route path="/user/:userId" element={<ProfileFeed />} />
     </Routes>
-  </BrowserRouter>);
+  );
 };
 
 const isLoadingState = (state: RootState): boolean => {
@@ -69,14 +69,14 @@ const App = (props: WithFirebaseApiProps) => {
     return <LoadingPage />;
   }
   return (
-    <>
+    <BrowserRouter>
       <Header />
       <Container sx={{ paddingTop: 3 }}>
         <Box sx={{ margin: "auto" }}>
           <Body />
         </Box>
       </Container>
-    </>
+    </BrowserRouter>
   );
 }
 
