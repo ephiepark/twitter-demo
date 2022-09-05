@@ -19,6 +19,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import ProfileFeed from './features/ProfileFeed';
 
 
 const Body = () => {
@@ -41,6 +42,7 @@ const Body = () => {
   return (<BrowserRouter>
     <Routes>
       <Route path="/" element={<MainFeed />} />
+      <Route path="/user/:userId" element={<ProfileFeed />} />
     </Routes>
   </BrowserRouter>);
 };
