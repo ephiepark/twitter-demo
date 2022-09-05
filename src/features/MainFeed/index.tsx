@@ -1,9 +1,7 @@
-import { Typography } from "@mui/material";
+import CreateTweetForm from "./CreateTweetForm";
 
 export default () => {
-  return (
-    <Typography variant="h2" component="div" align="left">
-      Welcome to the home page
-    </Typography>
-  );
+  return (<>
+    <CreateTweetForm />
+  </>);
 };
