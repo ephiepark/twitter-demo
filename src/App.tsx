@@ -14,6 +14,11 @@ import LoadingPage from './features/LoadingPage';
 import ErrorPage from './features/ErrorPage';
 import Onboarding from './features/Onboarding';
 import MainFeed from './features/MainFeed';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 
 
 const Body = () => {
@@ -33,7 +38,11 @@ const Body = () => {
   if (currentUserInfo === null) {
     return <Onboarding />;
   }
-  return (<MainFeed />);
+  return (<BrowserRouter>
+    <Routes>
+      <Route path="/" element={<MainFeed />} />
+    </Routes>
+  </BrowserRouter>);
 };
 
 const isLoadingState = (state: RootState): boolean => {
