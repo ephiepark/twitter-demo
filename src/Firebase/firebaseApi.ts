@@ -23,6 +23,7 @@ import {
   orderBy,
   query,
   getDocs,
+  where,
 } from "firebase/firestore";
 import { UserInfo, Tweet, TweetWithId } from '../types';
 
@@ -85,6 +86,24 @@ export default class FirebaseApi {
 
   asyncGetMainFeed = async (userId: string): Promise<Array<TweetWithId>> => {
     const q = query(collection(this.firestore, "tweets"), orderBy("createdTime", "desc"));
+    const tweets: Array<TweetWithId> = [];
+    const addTweet = (arr: Array<TweetWithId>, tweet: TweetWithId) => {
+      arr.push(tweet);
+    };
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      addTweet(tweets, {
+        id: doc.id,
+        userId: doc.data().userId,
+        tweetContent: doc.data().tweetContent,
+        createdTime: doc.data().createdTime,
+      })
+    });
+    return tweets;
+  };
+
+  asyncGetProfileFeed = async (userId: string): Promise<Array<TweetWithId>> => {
+    const q = query(collection(this.firestore, "tweets"), where("userId", "==", userId), orderBy("createdTime", "desc"));
     const tweets: Array<TweetWithId> = [];
     const addTweet = (arr: Array<TweetWithId>, tweet: TweetWithId) => {
       arr.push(tweet);
