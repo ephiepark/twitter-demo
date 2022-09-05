@@ -8,27 +8,21 @@ import { useParams } from "react-router-dom";
 import { TweetWithId } from "../../types";
 import ProfileCard from "./ProfileCard";
 
-const ProfileFeedBase = (props: WithFirebaseApiProps) => {
-  const params = useParams();
+const ProfileFeedBase = (props: {userId: string} & WithFirebaseApiProps) => {
   const [tweetWithIdList, setTweetWithIdList] = useState<Array<TweetWithId>>([]);
   const [fetchStatus, setFetchStatus] = useState<'idle' | 'loading' | 'failed'>('loading');
 
   useEffect(() => {
-    if (params.userId == null) {
-      setTweetWithIdList([]);
-      setFetchStatus('idle');
-      return;
-    }
     setTweetWithIdList([]);
     setFetchStatus('loading');
-    props.firebaseApi.asyncGetProfileFeed(params.userId!).then((tweetWithIdList) => {
+    props.firebaseApi.asyncGetProfileFeed(props.userId!).then((tweetWithIdList) => {
       setFetchStatus('idle');
       setTweetWithIdList(tweetWithIdList);
     }).catch((err) => {
       console.log(err);
       setFetchStatus('failed');
     });
-  }, [params.userId]);
+  }, []);
 
   if (fetchStatus === 'loading') {
     return <LoadingPage />;
@@ -48,8 +42,12 @@ const ProfileFeedBase = (props: WithFirebaseApiProps) => {
 const ProfileFeed = withFirebaseApi(ProfileFeedBase);
 
 export default () => {
+  const params = useParams();
+  if (params.userId == null) {
+    return <ErrorPage />;
+  }
   return (<>
-    <ProfileCard />
-    <ProfileFeed />
+    <ProfileCard userId={params.userId} />
+    <ProfileFeed userId={params.userId} />
   </>);
 };
