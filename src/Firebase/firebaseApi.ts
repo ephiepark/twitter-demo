@@ -18,10 +18,16 @@ import {
   setDoc,
   doc,
   getDoc,
+  addDoc,
+  collection,
+  orderBy,
+  query,
+  getDocs,
 } from "firebase/firestore";
 import {
   UserInfo
 } from "../redux/sessionSlice";
+import { Tweet, TweetWithId } from '../types';
 
 export default class FirebaseApi {
   app: FirebaseApp;
@@ -66,5 +72,35 @@ export default class FirebaseApi {
     return {
       username: docSnap.data().username,
     };
-  }
+  };
+
+  asyncCreateTweet = async (userId: string, tweetContent: string) => {
+    const impl = async (tweet: Tweet) => {
+      return await addDoc(collection(this.firestore, "tweets"), tweet);
+    };
+    const tweetRef = await impl({
+      tweetContent: tweetContent,
+      createdTime: Math.floor(Date.now() / 1000),
+      userId: userId,
+    });
+    return tweetRef.id;
+  };
+
+  asyncGetMainFeed = async (userId: string): Promise<Array<TweetWithId>> => {
+    const q = query(collection(this.firestore, "tweets"), orderBy("createdTime", "desc"));
+    const tweets: Array<TweetWithId> = [];
+    const addTweet = (arr: Array<TweetWithId>, tweet: TweetWithId) => {
+      arr.push(tweet);
+    };
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      addTweet(tweets, {
+        id: doc.id,
+        userId: doc.data().userId,
+        tweetContent: doc.data().tweetContent,
+        createdTime: doc.data().createdTime,
+      })
+    });
+    return tweets;
+  };
 }
