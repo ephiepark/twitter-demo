@@ -6,6 +6,7 @@ import LoadingPage from "../LoadingPage";
 import Tweet from "../../components/Tweet";
 import { useParams } from "react-router-dom";
 import { TweetWithId } from "../../types";
+import ProfileCard from "./ProfileCard";
 
 const ProfileFeedBase = (props: WithFirebaseApiProps) => {
   const params = useParams();
@@ -44,4 +45,11 @@ const ProfileFeedBase = (props: WithFirebaseApiProps) => {
   );
 };
 
-export default withFirebaseApi(ProfileFeedBase);
+const ProfileFeed = withFirebaseApi(ProfileFeedBase);
+
+export default () => {
+  return (<>
+    <ProfileCard />
+    <ProfileFeed />
+  </>);
+};
