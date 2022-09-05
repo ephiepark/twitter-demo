@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { handleSessionChange } from './redux/sessionSlice';
 
 // Import the functions you need from the SDKs you need
-import { Box, Typography, Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { withFirebaseApi, WithFirebaseApiProps } from './Firebase';
 
 import { useAppSelector, useAppDispatch } from './redux/hooks';
@@ -13,6 +13,7 @@ import LandingPage from './features/LandingPage';
 import LoadingPage from './features/LoadingPage';
 import ErrorPage from './features/ErrorPage';
 import Onboarding from './features/Onboarding';
+import MainFeed from './features/MainFeed';
 
 
 const Body = () => {
@@ -32,11 +33,7 @@ const Body = () => {
   if (currentUserInfo === null) {
     return <Onboarding />;
   }
-  return (
-    <Typography variant="h2" component="div" align="left">
-      Welcome to the home page
-    </Typography>
-  )
+  return (<MainFeed />);
 };
 
 const isLoadingState = (state: RootState): boolean => {
