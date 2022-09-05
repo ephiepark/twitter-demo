@@ -6,6 +6,7 @@ import { asyncGetMainFeed } from "../../redux/mainFeedSlice";
 import { RootState } from "../../redux/store";
 import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
+import Tweet from "../../components/Tweet";
 
 const MainFeedBase = (props: WithFirebaseApiProps) => {
   const currentUserId = useAppSelector((state: RootState) => state.session.userId);
@@ -29,7 +30,7 @@ const MainFeedBase = (props: WithFirebaseApiProps) => {
   return (
     <Box sx={{ margin: "auto" }}>
       {tweetWithIdList.map((tweet) => {
-        return (<li key={tweet.id}>{tweet.tweetContent}</li>);
+        return (<Tweet key={tweet.id} tweet={tweet} />);
       })}
     </Box>
   );
