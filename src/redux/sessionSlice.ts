@@ -1,14 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState, AppThunk } from './store';
 import { FirebaseApi } from '../Firebase';
-
-export interface UserInfo {
-  username: string;
-};
-
-export interface WithLoadingState {
-  status: 'idle' | 'loading' | 'failed';
-};
+import { UserInfo, WithLoadingState } from '../types';
 
 export interface SessionState {
   userId: string | null | undefined;

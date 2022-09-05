@@ -1,3 +1,11 @@
+export interface UserInfo {
+  username: string;
+};
+
+export interface WithLoadingState {
+  status: 'idle' | 'loading' | 'failed';
+};
+
 export interface WithId {
   id: string;
 };

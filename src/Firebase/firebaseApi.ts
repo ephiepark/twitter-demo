@@ -24,10 +24,7 @@ import {
   query,
   getDocs,
 } from "firebase/firestore";
-import {
-  UserInfo
-} from "../redux/sessionSlice";
-import { Tweet, TweetWithId } from '../types';
+import { UserInfo, Tweet, TweetWithId } from '../types';
 
 export default class FirebaseApi {
   app: FirebaseApp;
