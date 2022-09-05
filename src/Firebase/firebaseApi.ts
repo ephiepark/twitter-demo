@@ -105,7 +105,7 @@ export default class FirebaseApi {
     return tweets;
   };
 
-  asyncGetAllTweets = async (userId: string): Promise<Array<TweetWithId>> => {
+  asyncGetExploreFeed = async (userId: string): Promise<Array<TweetWithId>> => {
     const q = query(collection(this.firestore, "tweets"), orderBy("createdTime", "desc"));
     const tweets: Array<TweetWithId> = [];
     const addTweet = (arr: Array<TweetWithId>, tweet: TweetWithId) => {

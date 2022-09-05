@@ -20,6 +20,7 @@ import {
   Route,
 } from "react-router-dom";
 import ProfileFeed from './features/ProfileFeed';
+import ExploreFeed from './features/ExploreFeed';
 
 
 const Body = () => {
@@ -43,6 +44,7 @@ const Body = () => {
     <Routes>
       <Route path="/" element={<MainFeed />} />
       <Route path="/user/:userId" element={<ProfileFeed />} />
+      <Route path="/explore" element={<ExploreFeed />} />
     </Routes>
   );
 };
