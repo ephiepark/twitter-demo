@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import sessionReducer from './sessionSlice';
+import mainFeedReducer from './mainFeedSlice';
 
 export const store = configureStore({
   reducer: {
     session: sessionReducer,
+    mainFeed: mainFeedReducer,
   },
 });
 
