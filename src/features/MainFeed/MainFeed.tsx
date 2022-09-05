@@ -10,6 +10,7 @@ import Tweet from "../../components/Tweet";
 
 const MainFeedBase = (props: WithFirebaseApiProps) => {
   const currentUserId = useAppSelector((state: RootState) => state.session.userId);
+  const currentUserInfo = useAppSelector((state: RootState) => state.session.userInfo.value);
   const tweetWithIdList = useAppSelector((state: RootState) => state.mainFeed.mainFeed.value);
   const fetchStatus = useAppSelector((state: RootState) => state.mainFeed.mainFeed.status);
   const dispatch = useAppDispatch();
@@ -17,7 +18,8 @@ const MainFeedBase = (props: WithFirebaseApiProps) => {
   useEffect(() => {
     dispatch(asyncGetMainFeed({
       firebaseApi: props.firebaseApi,
-      userId: currentUserId!
+      userId: currentUserId!,
+      following: currentUserInfo!.following,
     }));
   }, []);
 

@@ -1,5 +1,6 @@
 export interface UserInfo {
   username: string;
+  following: Array<string>;
 };
 
 export interface WithLoadingState {

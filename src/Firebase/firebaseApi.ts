@@ -69,6 +69,7 @@ export default class FirebaseApi {
     }
     return {
       username: docSnap.data().username,
+      following: docSnap.data().following ?? [],
     };
   };
 
@@ -84,7 +85,27 @@ export default class FirebaseApi {
     return tweetRef.id;
   };
 
-  asyncGetMainFeed = async (userId: string): Promise<Array<TweetWithId>> => {
+  asyncGetMainFeed = async (userId: string, following: Array<string>): Promise<Array<TweetWithId>> => {
+    // TODO if following is >10 need to send multiple queries in parallel
+    const userIdFilter = [userId, ...following];
+    const q = query(collection(this.firestore, "tweets"), where("userId", "in", userIdFilter.slice(0, 10)), orderBy("createdTime", "desc"));
+    const tweets: Array<TweetWithId> = [];
+    const addTweet = (arr: Array<TweetWithId>, tweet: TweetWithId) => {
+      arr.push(tweet);
+    };
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      addTweet(tweets, {
+        id: doc.id,
+        userId: doc.data().userId,
+        tweetContent: doc.data().tweetContent,
+        createdTime: doc.data().createdTime,
+      })
+    });
+    return tweets;
+  };
+
+  asyncGetAllTweets = async (userId: string): Promise<Array<TweetWithId>> => {
     const q = query(collection(this.firestore, "tweets"), orderBy("createdTime", "desc"));
     const tweets: Array<TweetWithId> = [];
     const addTweet = (arr: Array<TweetWithId>, tweet: TweetWithId) => {

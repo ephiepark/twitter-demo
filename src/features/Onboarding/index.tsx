@@ -31,7 +31,7 @@ const OnboardingPageBase = (
       onClick={() => dispatch(asyncSetUserInfo({
         firebaseApi: props.firebaseApi,
         userId: currentUserId!,
-        userInfo: { username: username }
+        userInfo: { username: username, following: [] }
       }))}
     >SUBMIT</Button>
   </>);

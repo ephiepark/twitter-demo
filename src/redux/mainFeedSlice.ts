@@ -23,8 +23,8 @@ const initialState: MainFeedState = {
 
 export const asyncGetMainFeed = createAsyncThunk(
   'mainFeed/getMainFeed',
-  async (action: { firebaseApi: FirebaseApi, userId: string }) => {
-    return await action.firebaseApi.asyncGetMainFeed(action.userId);
+  async (action: { firebaseApi: FirebaseApi, userId: string, following: Array<string> }) => {
+    return await action.firebaseApi.asyncGetMainFeed(action.userId, action.following);
   }
 );
 
@@ -57,14 +57,15 @@ export const { setCreateTweetStatus } = mainFeedSlice.actions;
 
 export const handleCreateTweet =
   (firebaseApi: FirebaseApi, userId: string, tweetContent: string): AppThunk =>
-    async (dispatch) => {
+    async (dispatch, getState) => {
+      const following = getState().session.userInfo.value!.following;
       dispatch(setCreateTweetStatus('loading'));
       firebaseApi.asyncCreateTweet(
         userId,
         tweetContent,
       ).then(() => {
         dispatch(setCreateTweetStatus('idle'));
-        dispatch(asyncGetMainFeed({ firebaseApi, userId }));
+        dispatch(asyncGetMainFeed({ firebaseApi, userId, following }));
       }).catch(() => {
         dispatch(setCreateTweetStatus('failed'));
       });
